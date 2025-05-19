@@ -57,13 +57,13 @@ const BookCard = ({ book, onDelete, onUpdate }) => {
         <button
           type="button"
           onClick={handleCancel}
-          className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+          className="btn"
         >
           Cancel
         </button>
         <button
           type="submit"
-          className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className="btn btn-primary"
         >
           Save
         </button>
@@ -82,13 +82,13 @@ const BookCard = ({ book, onDelete, onUpdate }) => {
         <div className="mt-4 flex space-x-2 justify-end">
           <button
             onClick={() => setIsEditing(true)}
-            className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="btn btn-primary btn-sm"
           >
             Edit
           </button>
           <button
             onClick={() => onDelete(book.id)}
-            className="px-3 py-1 text-xs bg-red-600 text-white rounded hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+            className="btn btn-danger btn-sm"
           >
             Delete
           </button>
@@ -98,7 +98,7 @@ const BookCard = ({ book, onDelete, onUpdate }) => {
   );
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow duration-300">
+    <div className="card">
       {isEditing ? <EditForm /> : <BookDisplay />}
     </div>
   );

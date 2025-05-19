@@ -314,7 +314,7 @@
 // App
 //
 // .js
-import { createContext, useState, useContext } from 'react';
+import { createContext, useState, useContext, useEffect } from 'react';
 import './App.css';
 
 
@@ -444,7 +444,7 @@ const BookCard = ({ book, onDelete, onUpdate }) => {
   );
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow duration-300">
+    <div className="card">
       {isEditing ? <EditForm /> : <BookDisplay />}
     </div>
   );
@@ -506,8 +506,15 @@ const BookList = () => {
     book.author.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  useEffect(() => {
+    localStorage.setItem('books', JSON.stringify(books));
+    console.log('Books saved to localStorage:', books);
+  }, [books]);
+
+  console.log('Books loaded from localStorage:', books);
+
   return (
-    <div className="w-full max-w-4xl mx-auto">
+    <div className="container">
       {/* Search bar */}
       <div className="mb-6">
         <input
@@ -603,26 +610,16 @@ export default function App() {
 
   return (
     <RoleContext.Provider value={roleContextValue}>
-      <div className="min-h-screen bg-gray-50">
-        <header className="bg-white shadow-sm">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <div className="flex justify-between items-center">
-              <h1 className="text-2xl font-bold text-gray-900">Book Dashboard</h1>
-              <RoleSwitcher />
-            </div>
-          </div>
+      <div className="app-bg">
+        <header className="dashboard-header">
+          <h1 className="dashboard-title">📚 Book Dashboard</h1>
+          <RoleSwitcher />
         </header>
-        
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <main className="dashboard-main">
           <BookList />
         </main>
-        
-        <footer className="bg-white mt-12 py-6 border-t border-gray-200">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <p className="text-center text-sm text-gray-500">
-              CS-343: Web Technologies - Lab 11 Book Dashboard
-            </p>
-          </div>
+        <footer className="dashboard-footer">
+          <p>CS-343: Web Technologies - Lab 11 Book Dashboard</p>
         </footer>
       </div>
     </RoleContext.Provider>

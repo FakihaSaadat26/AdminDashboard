@@ -1,5 +1,5 @@
 // BookList.js
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { RoleContext } from './RoleContext';
 import BookCard from './BookCard';
 
@@ -11,7 +11,26 @@ const BookList = () => {
     { id: 3, title: 'The Great Gatsby', author: 'F. Scott Fitzgerald' },
   ];
 
-  const [books, setBooks] = useState(initialBooks);
+  const [books, setBooks] = useState([]);
+
+  // On mount, load books from localStorage or use initialBooks
+  useEffect(() => {
+    const saved = localStorage.getItem('books');
+    if (saved) {
+      setBooks(JSON.parse(saved));
+    } else {
+      setBooks(initialBooks);
+    }
+    // eslint-disable-next-line
+  }, []);
+
+  // Save to localStorage whenever books change
+  useEffect(() => {
+    if (books.length > 0) {
+      localStorage.setItem('books', JSON.stringify(books));
+    }
+  }, [books]);
+
   const [newBook, setNewBook] = useState({ title: '', author: '' });
   const [searchTerm, setSearchTerm] = useState('');
   const { role } = useContext(RoleContext);
@@ -56,7 +75,7 @@ const BookList = () => {
   );
 
   return (
-    <div className="w-full max-w-4xl mx-auto">
+    <div className="container">
       {/* Search bar */}
       <div className="mb-6">
         <input
@@ -70,7 +89,7 @@ const BookList = () => {
 
       {/* Add new book form (Admin only) */}
       {role === 'admin' && (
-        <form onSubmit={handleAddBook} className="mb-8 bg-gray-50 p-6 rounded-lg shadow-sm">
+        <form onSubmit={handleAddBook} className="mb-8 card">
           <h2 className="text-xl font-bold mb-4 text-gray-800">Add New Book</h2>
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1">
@@ -100,7 +119,7 @@ const BookList = () => {
             <div className="self-end">
               <button
                 type="submit"
-                className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                className="btn btn-success"
               >
                 Add Book
               </button>
